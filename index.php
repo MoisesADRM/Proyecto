@@ -1,9 +1,19 @@
-
+<?php
+$servidor="localhost";
+$usuario="root";
+$clave="";
+$baseDeDatos="dudas";
+$enlace = mysqli_connect($servidor, $usuario, $clave, $baseDeDatos);
+if(!$enlace){
+  echo "Error en la conexion con el servidor";
+}
+?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
     <title>Roman Saldaña</title>
+    <link rel="stylesheet" type="text/css" href="estilo.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"><link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -64,14 +74,14 @@
     <div class="carousel-inner">
 
       <div class="item active">
-        <img src="https://raw.githubusercontent.com/MoisesADRM/Proyecto/gh-pages/imagenes/imagen1.jpg" alt="Ejemplo 1" style="width:100%;">
+        <img src="https://raw.githubusercontent.com/MoisesADRM/Proyecto/gh-pages/imagenes/imagen1.jpg" alt="Ejemplo 1" width="1000" height="1000">
         <div class="carousel-caption">
           <h3 style="color:black;">Aquí iría la primera imagen</h3>
         </div>
       </div>
 
       <div class="item">
-        <img src="https://raw.githubusercontent.com/MoisesADRM/Proyecto/gh-pages/imagenes/imagen2.jpg" alt="Ejemplo 2" style="width:100%;">
+        <img src="https://raw.githubusercontent.com/MoisesADRM/Proyecto/gh-pages/imagenes/imagen2.jpg" alt="Ejemplo 2" width="1000" height="1000">
         <div class="carousel-caption">
           <h3 style="color:black;">Aquí iría la segunda imagen <br>(Aun tengo que conseguir las imagenes que voy a poner)</h3>
         </div>
@@ -117,41 +127,40 @@ Santa Ana Chiautempan, Chiautempan, Tlaxcala, C.P. 90810<br> <br>
   <div class="row">
     <div class="col-md">
       <div class="container">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="well well-sm">
-                <form class="form-horizontal" method="post">
-                    <fieldset>
-                        <legend class="text-center header">Ingresa tu duda aquí<br>llena los datos para que podamos mandarte la respuesta</legend>
-                        <div class="form-group">
-                            <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-user bigicon"></i></span>
-                            <div class="col-md-8">
-                                <input id="fname" name="name" type="text" placeholder="Nombre" class="form-control">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-envelope-o bigicon"></i></span>
-                            <div class="col-md-8">
-                                <input id="email" name="email" type="text" placeholder="Correo electronico" class="form-control">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-pencil-square-o bigicon"></i></span>
-                            <div class="col-md-8">
-                                <textarea class="form-control" id="message" name="Consulta" placeholder="Consulta" rows="7"></textarea>
-                            </div>
-                        </div>
+        <div class="contenedor">
+      		<form action="#" class="formulario" id="formulario" name="formulario" method="POST">
+      			<div class="contenedor-inputs">
+      				<input type="text" name="nombre" placeholder="Nombre">
+      				<input type="text" name="correo" placeholder="Correo">
+              <input type="text" name="duda" placeholder="Duda">
+      				<ul class="error" id="error"></ul>
+      			</div>
 
-                        <div class="form-group">
-                            <div class="col-md-12 text-center">
-                                <button type="submit" class="btn btn-primary btn-lg">Subir</button>
-                            </div>
-                        </div>
-                    </fieldset>
-                </form>
-            </div>
-        </div>
-    </div>
+      			<input type="submit" class="btn" name="registrar" value="Registrar">
+      		</form>
+      	</div>
+      	<script src="formulario.js"></script>
+      </body>
+      </html>
+      <?php
+      	if(isset($_POST['registrarse'])){
+      		$nombre =$_POST["nombre"];
+      		$correo=$_POST["correo"];
+      		$sexo=$_POST["sexo"];
+      		$id= rand(1,99);
+
+      		$insertarDatos = "INSERT INTO datos VALUES('$nombre',
+      													'$correo',
+      													'$sexo',
+      													'$id')";
+
+      		$ejecutarInsertar = mysqli_query($enlace, $insertarDatos);
+
+      		if(!$ejecutarInsertar){
+      			echo"Error En la linea de sql";
+      		}
+      	}
+      ?>
 </div>
 </div>
 </div>
@@ -159,5 +168,23 @@ Santa Ana Chiautempan, Chiautempan, Tlaxcala, C.P. 90810<br> <br>
 <br><br><br>
 <footer align="center">Moises Adrian 2020</footer>
 <br><br><br>
+<script src="4BVPG35.js"></script>
   </body>
 </html>
+<?php
+	if(isset($_POST['registrar'])){
+		$nombre =$_POST["nombre"];
+		$correo=$_POST["correo"];
+		$duda=$_POST["duda"];
+
+		$insertarDatos = "INSERT INTO formulario VALUES('$nombre',
+													'$correo',
+													'$duda')";
+
+		$ejecutarInsertar = mysqli_query($enlace, $insertarDatos);
+
+		if(!$ejecutarInsertar){
+			echo"Error En la linea de sql";
+		}
+	}
+?>
